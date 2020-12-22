@@ -137,3 +137,7 @@ dmypy.json
 test_results
 db.sqlite
 db_test.sqlite
+app.db
+app.sqlite
+app_test.db
+app_test.sqlite
