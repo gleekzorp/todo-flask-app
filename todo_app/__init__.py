@@ -1,6 +1,8 @@
 from flask import Flask
 
-app = Flask(__name__)
 
-# In order to fix this warning you would want to use a create_app() function
-from todo_app import routes
+def create_app():
+    app = Flask(__name__)
+    from todo_app.routes import routes
+    app.register_blueprint(routes)
+    return app
