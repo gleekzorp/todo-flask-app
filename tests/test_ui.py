@@ -22,7 +22,7 @@ def test_home_page_todo_has_title(py):
     assert py.contains('Clean room')
 
 
-def test_home_page_title_with_test_client():
+def test_home_page_title_with_test_client(init_database):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/' page is requested (GET)
@@ -37,7 +37,7 @@ def test_home_page_title_with_test_client():
         assert b"Todo App" in response.data
 
 
-def test_home_page_title_with_test_client_fixture(test_client):
+def test_home_page_title_with_test_client_fixture(test_client, init_database):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/' page is requested (GET)
