@@ -11,15 +11,26 @@ def test_homepage_title(py):
 # Using Pyleniumio
 def test_homepage_has_text_field_and_add_button(py):
     py.visit(BASE_URL)
-    text_field = py.get('input')
-    add_button = py.get('button')
+    text_field = py.get('#add-todo-input')
+    add_button = py.get('#add-todo-btn')
     assert text_field.is_displayed()
     assert add_button.is_displayed()
 
 
+# Using Pyleniumio
 def test_home_page_todo_has_title(py):
     py.visit(BASE_URL)
     assert py.contains('Clean room')
+
+
+# Using Pyleniumio
+def test_add_todo_with_ui(py):
+    py.visit(BASE_URL)
+    text_field = py.get('#add-todo-input')
+    add_button = py.get('#add-todo-btn')
+    text_field.type('Buy Milk')
+    add_button.click()
+    assert py.contains('Buy Milk')
 
 
 def test_home_page_title_with_test_client(init_database):
