@@ -17,6 +17,11 @@ def test_homepage_has_text_field_and_add_button(py):
     assert add_button.is_displayed()
 
 
+def test_home_page_todo_has_title(py):
+    py.visit(BASE_URL)
+    assert py.contains('Clean room')
+
+
 def test_home_page_title_with_test_client():
     """
     GIVEN a Flask application configured for testing
@@ -41,3 +46,11 @@ def test_home_page_title_with_test_client_fixture(test_client):
     response = test_client.get('/')
     assert response.status_code == 200
     assert b"Todo App" in response.data
+
+
+def test_home_page_todo_has_title_with_test_client_fixture(init_database, test_client):
+    response = test_client.get('/')
+    assert b'Clean room' in response.data
+
+
+
