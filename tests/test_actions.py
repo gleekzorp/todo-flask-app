@@ -25,8 +25,13 @@ def test_delete_todo(init_database, test_client):
     assert b'Clean room' not in response.data
 
 
-def test_mark_complete():
-    pytest.xfail()
+def test_mark_complete(init_database, test_client):
+    todo = Todo.query.filter_by(title="Clean room").first()
+    todo_id = todo.id
+    response = test_client.post(f'/mark-complete/{todo_id}', follow_redirects=True)
+    updated_todo = Todo.query.get(todo_id)
+    assert response.status_code == 200
+    assert updated_todo.done is True
 
 
 def test_delete_todos_marked_complete():

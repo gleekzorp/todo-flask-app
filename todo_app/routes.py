@@ -28,3 +28,10 @@ def delete_todo(todo_id):
     db.session.commit()
     return redirect(url_for("routes.home"))
 
+
+@routes.route('/mark-complete/<int:todo_id>', methods=['POST'])
+def mark_complete(todo_id):
+    todo = Todo.query.get(todo_id)
+    todo.done = not todo.done
+    db.session.commit()
+    return redirect(url_for("routes.home"))
