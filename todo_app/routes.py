@@ -18,6 +18,13 @@ def add_todo():
     todo = Todo(title=title, done=False)
     db.session.add(todo)
     db.session.commit()
-    todos = Todo.query.all()
-    return redirect(url_for("routes.home", todos=todos))
+    return redirect(url_for("routes.home"))
+
+
+@routes.route('/delete-todo/<int:todo_id>', methods=['POST'])
+def delete_todo(todo_id):
+    todo = Todo.query.get(todo_id)
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for("routes.home"))
 

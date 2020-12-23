@@ -12,7 +12,7 @@
       <button type="submit">Add</button>
     </form>
     {% for todo in todos %}
-    <form class="todo-item">
+    <form class="todo-item" action="{{ url_for('routes.delete_todo', todo_id=todo.id) }}" method="POST">
       <div class="todo-item-left">
         <input
           type="checkbox"
