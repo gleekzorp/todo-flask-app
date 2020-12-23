@@ -4,30 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo App</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/style.css')}}">
   </head>
   <body>
-    <h1>Hello World</h1>
-    <form action="{{ url_for('routes.add_todo') }}" method="post">
-      <input id="add-todo-input" type="text" name="title"/>
-      <button id="add-todo-btn" type="submit">Add</button>
-    </form>
-    {% for todo in todos %}
-    <div class="todo-item">
-      <form class="todo-item-left" action="{{ url_for('routes.mark_complete', todo_id=todo.id) }}" method="POST">
-        <input
-          type="checkbox"
-          class="checkbox"
+    <div class="app">
+      <h1>Todo List</h1>
+      <form class="add-todo" action="{{ url_for('routes.add_todo') }}" method="post">
+        <input id="add-todo-input" type="text" name="title"/>
+        <button id="add-todo-btn" type="submit">Add</button>
+      </form>
+      {% for todo in todos %}
+      <div class="todo-item">
+        <form class="todo-item-left" action="{{ url_for('routes.mark_complete', todo_id=todo.id) }}" method="POST">
+          <input
+            type="checkbox"
+            class="checkbox"
+            {% if todo.done %}
+              checked
+            {% endif %}
+            onchange="this.form.submit()"
+          />
           {% if todo.done %}
-          checked
+            <p class="title done">{{ todo.title }}</p>
+          {% else %}
+            <p class="title">{{ todo.title }}</p>
           {% endif %}
-          onchange="this.form.submit()"
-        />
-        <p>{{ todo.title }}</p>
-      </form>
-      <form action="{{ url_for('routes.delete_todo', todo_id=todo.id) }}" method="POST">
-        <button class="delete-btn" type="submit">Delete</button>
-      </form>
+        </form>
+        <form action="{{ url_for('routes.delete_todo', todo_id=todo.id) }}" method="POST">
+          <button class="delete-btn" type="submit">Delete</button>
+        </form>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </body>
 </html>

@@ -33,6 +33,20 @@ def test_add_todo_with_ui(py):
     assert py.contains('Buy Milk')
 
 
+# Using Pyleniumio
+# Might need to look into some fixtures.
+# This will only work if the database has zero todos
+def test_mark_complete(py):
+    py.visit(BASE_URL)
+    py.get('#add-todo-input').type('Buy Milk')
+    py.get('#add-todo-btn').click()
+    py.get('.checkbox').click()
+    title = py.get('.title')
+    assert py.get('.checkbox').is_checked()
+    assert title.should().have_class('title done')
+    assert title.css_value("text-decoration")
+
+
 def test_home_page_title_with_test_client(init_database):
     """
     GIVEN a Flask application configured for testing
