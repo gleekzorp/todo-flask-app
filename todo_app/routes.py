@@ -9,7 +9,12 @@ routes = Blueprint('routes', __name__)
 @routes.route('/')
 def home():
     todos = Todo.query.all()
-    return render_template('index.html', todos=todos)
+    done_count = 0
+    if len(todos) > 1:
+        for todo in todos:
+            if todo.done:
+                done_count += 1
+    return render_template('index.html', todos=todos, done_count=done_count)
 
 
 @routes.route('/add-todo', methods=["POST"])

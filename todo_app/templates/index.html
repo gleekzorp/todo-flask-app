@@ -36,7 +36,7 @@
         </form>
       </div>
       {% endfor %}
-      {% if todos|length >= 2 %}
+      {% if done_count >= 2 %}
         <form action="{{ url_for('routes.delete_all_complete') }}" method="POST">
           <button class="delete-all-btn" type="submit">Delete Finished Todos</button>
         </form>
