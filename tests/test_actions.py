@@ -1,4 +1,3 @@
-import pytest
 
 from todo_app.models import Todo
 
@@ -25,6 +24,7 @@ def test_delete_todo(init_database, test_client):
     assert b'Clean room' not in response.data
 
 
+# Currently passes when running on its own.  If you run test_actions file it fails
 def test_mark_complete(init_database, test_client):
     todo = Todo.query.filter_by(title="Clean room").first()
     todo_id = todo.id
@@ -34,5 +34,10 @@ def test_mark_complete(init_database, test_client):
     assert updated_todo.done is True
 
 
-def test_delete_todos_marked_complete():
-    pytest.xfail()
+# Failing but yet it is deleting the todos
+def test_delete_all_complete(init_database, test_client):
+    response = test_client.post('/delete-all-complete', follow_redirects=True)
+    print(response.data)
+    assert response.status_code == 200
+    assert b'Clean room' not in response.data
+    assert b'Code' not in response.data

@@ -18,6 +18,7 @@ def test_homepage_has_text_field_and_add_button(py):
 
 
 # Using Pyleniumio
+# Currently fails since todo doesn't exist.  Should we remove test since we have test_add_todo_with_ui now?
 def test_home_page_todo_has_title(py):
     py.visit(BASE_URL)
     assert py.contains('Clean room')
@@ -45,6 +46,37 @@ def test_mark_complete(py):
     assert py.get('.checkbox').is_checked()
     assert title.should().have_class('title done')
     assert title.css_value("text-decoration")
+
+
+# Currently passes as long as database is empty to start with
+def test_delete_all_complete(py):
+    todos = [
+        {
+            "title": 'Clean room',
+            "done": False
+        },
+        {
+            "title": 'Wash Car',
+            "done": False
+        },
+        {
+            "title": 'Cut Hair',
+            "done": True
+        },
+        {
+            "title": 'Code',
+            "done": True
+        },
+    ]
+    py.visit(BASE_URL)
+    for i in range(len(todos)):
+        py.get('#add-todo-input').type(todos[i]['title'])
+        py.get('#add-todo-btn').click()
+        if todos[i]['done']:
+            py.get(f'#checkbox-{i+1}').click()
+    py.get('.delete-all-btn').click()
+    assert py.should().not_contain('Code')
+    assert py.should().not_contain('Cut Hair')
 
 
 def test_home_page_title_with_test_client(init_database):
@@ -76,6 +108,3 @@ def test_home_page_title_with_test_client_fixture(test_client, init_database):
 def test_home_page_todo_has_title_with_test_client_fixture(init_database, test_client):
     response = test_client.get('/')
     assert b'Clean room' in response.data
-
-
-

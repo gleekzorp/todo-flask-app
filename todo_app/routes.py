@@ -35,3 +35,12 @@ def mark_complete(todo_id):
     todo.done = not todo.done
     db.session.commit()
     return redirect(url_for("routes.home"))
+
+
+@routes.route('/delete-all-complete', methods=['POST'])
+def delete_all_complete():
+    completed_todos = Todo.query.filter_by(done=True).all()
+    for todo in completed_todos:
+        db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for("routes.home"))
