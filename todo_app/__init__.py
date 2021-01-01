@@ -7,13 +7,14 @@ db = SQLAlchemy()
 def create_app(config_filename=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_pyfile(config_filename)
-    initialize_extensions(app)
     register_blueprints(app)
+
+    # Create sql tables for our data models
+    # Found from this link.  https://hackersandslackers.com/flask-sqlalchemy-database-models/
+    with app.app_context():
+        db.init_app(app)
+        db.create_all()
     return app
-
-
-def initialize_extensions(app):
-    db.init_app(app)
 
 
 def register_blueprints(app):

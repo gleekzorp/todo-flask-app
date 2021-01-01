@@ -24,7 +24,8 @@ def test_client():
 @pytest.fixture(scope='module')
 def init_database(test_client):
     # Create the database and the database table
-    db.create_all()
+    # Don't need anymore with new factory setup
+    # db.create_all()
 
     # Insert user data
     todo_one = Todo(title="Clean room", done=False)
