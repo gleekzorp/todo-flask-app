@@ -1,5 +1,6 @@
 import pytest
 
+from run import app
 from todo_app import create_app, db
 from todo_app.models import Todo
 
@@ -43,3 +44,15 @@ def init_database(test_client):
     yield  # this is where the testing happens!
 
     db.drop_all()
+
+
+@pytest.fixture(scope='function')
+def clear_data():
+    with app.app_context():
+        db.session.query(Todo).delete()
+        db.session.commit()
+
+        yield
+
+        db.session.query(Todo).delete()
+        db.session.commit()

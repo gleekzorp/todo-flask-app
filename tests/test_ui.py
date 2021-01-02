@@ -2,13 +2,11 @@ from todo_app import create_app
 BASE_URL = "http://localhost:5000"
 
 
-# Using Pyleniumio
 def test_homepage_title(py):
     py.visit(BASE_URL)
     assert py.title() == 'Todo App'
 
 
-# Using Pyleniumio
 def test_homepage_has_text_field_and_add_button(py):
     py.visit(BASE_URL)
     text_field = py.get('#add-todo-input')
@@ -17,15 +15,7 @@ def test_homepage_has_text_field_and_add_button(py):
     assert add_button.is_displayed()
 
 
-# Using Pyleniumio
-# Currently fails since todo doesn't exist.  Should we remove test since we have test_add_todo_with_ui now?
-def test_home_page_todo_has_title(py):
-    py.visit(BASE_URL)
-    assert py.contains('Clean room')
-
-
-# Using Pyleniumio
-def test_add_todo_with_ui(py):
+def test_add_todo_with_ui(py, clear_data):
     py.visit(BASE_URL)
     text_field = py.get('#add-todo-input')
     add_button = py.get('#add-todo-btn')
@@ -34,10 +24,7 @@ def test_add_todo_with_ui(py):
     assert py.contains('Buy Milk')
 
 
-# Using Pyleniumio
-# Might need to look into some fixtures.
-# This will only work if the database has zero todos
-def test_mark_complete(py):
+def test_mark_complete(py, clear_data):
     py.visit(BASE_URL)
     py.get('#add-todo-input').type('Buy Milk')
     py.get('#add-todo-btn').click()
@@ -48,8 +35,7 @@ def test_mark_complete(py):
     assert title.css_value("text-decoration")
 
 
-# Currently passes as long as database is empty to start with
-def test_delete_all_complete(py):
+def test_delete_all_complete(py, clear_data):
     todos = [
         {
             "title": 'Clean room',

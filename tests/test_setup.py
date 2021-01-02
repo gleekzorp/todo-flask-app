@@ -1,4 +1,3 @@
-from todo_app import create_app, db
 from todo_app.models import Todo
 
 
@@ -26,3 +25,8 @@ def test_new_todo_with_fixture(new_todo):
 def test_init_database(init_database):
     todos = Todo.query.all()
     assert len(todos) == 4
+
+
+def test_clear_data(clear_data):
+    todos = Todo.query.all()
+    assert len(todos) == 0
